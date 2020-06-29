@@ -8,10 +8,12 @@ import ImageHoster.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 
 import javax.servlet.http.HttpSession;
+import javax.validation.Valid;
 import java.util.List;
 
 
@@ -33,14 +35,18 @@ public class UserController {
         User user = new User();
         UserProfile profile = new UserProfile();
         user.setProfile(profile);
-        model.addAttribute("User", user);
+        model.addAttribute("user", user);
         return "users/registration";
     }
 
     //This controller method is called when the request pattern is of type 'users/registration' and also the incoming request is of POST type
     //This method calls the business logic and after the user record is persisted in the database, directs to login page
     @RequestMapping(value = "users/registration", method = RequestMethod.POST)
-    public String registerUser(User user) {
+    public String registerUser(@Valid User user, BindingResult bindingResult) {
+
+        if(bindingResult.hasErrors()){
+            return "users/registration";
+        }
         userService.registerUser(user);
         return "redirect:/users/login";
     }
