@@ -24,10 +24,13 @@ public class User {
     private String username;
 
     @NotBlank
-    //@Size(min = 5, max = 14, message = "Minimum 5")
     @Pattern(regexp = "^(?=.*[0-9])(?=.*[a-z])(?=.*[@#$%^&+=])(?=\\S+$).{3,}$", message = "Password must contain at least 1 alphabet, 1 number & 1 special character")
     @Column(name = "password")
     private String password;
+
+    @NotBlank
+    @Transient
+    private String confirmPassword;
 
     //The 'users' table is mapped to 'user_profile' table with One:One mapping
     //cascade = CascadeType.ALL specifies that if a record in 'user_profile' table is deleted or updated, then all the records in 'users' table associated to that particular record in 'user_profile' table will be deleted or updated  first and then the record in the 'user_profile' table will be deleted or updated
@@ -67,6 +70,14 @@ public class User {
 
     public void setPassword(String password) {
         this.password = password;
+    }
+
+    public String getConfirmPassword() {
+        return confirmPassword;
+    }
+
+    public void setConfirmPassword(String confirmPassword) {
+        this.confirmPassword = confirmPassword;
     }
 
     public UserProfile getProfile() {
