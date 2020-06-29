@@ -1,6 +1,7 @@
 package ImageHoster.model;
 
 import javax.persistence.*;
+import javax.validation.constraints.*;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -22,6 +23,9 @@ public class User {
     @Column(name = "username")
     private String username;
 
+    @NotBlank
+    //@Size(min = 5, max = 14, message = "Minimum 5")
+    @Pattern(regexp = "^(?=.*[0-9])(?=.*[a-z])(?=.*[@#$%^&+=])(?=\\S+$).{3,}$", message = "Password must contain at least 1 alphabet, 1 number & 1 special character")
     @Column(name = "password")
     private String password;
 
